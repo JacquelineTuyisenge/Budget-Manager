@@ -94,12 +94,12 @@ function ExpenseForm() {
     const balance = totalIncome - totalExpenses;
 
     return (
-        <div className="bg-gray-100 h-screen flex flex-col ">
-            <h1 className="text-3xl font-bold text-gray-800 text-center p-20">Budget Manager</h1>
-            <div className="bg-white shadow-md rounded-lg p-5 flex lg:flex-row flex-col lg:justify-around gap-5">
+        <div className="flex flex-col ">
+            <h1 className="text-3xl font-bold text-gray-800 text-center py-20">Budget Manager</h1>
+            <div className="shadow-md rounded-lg p-8 flex lg:flex-row flex-col lg:justify-around gap-5">
                 <section className="lg:w-1/3 w-full">
                     <h1 className="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-blue-500 pb-2">Income</h1>
-                    <div className="bg-blue-100 p-4 rounded-lg mb-6">
+                    <div className="bg-blue-200 p-4 rounded-lg mb-6">
                         <p className="text-center">All Income goes here</p>
                         <form onSubmit={handleAddIncome}>
                             <div className="mb-4">
@@ -149,7 +149,7 @@ function ExpenseForm() {
                 </section>
                 <section className="lg:w-1/3 w-full">
                     <h1 className="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-blue-500 pb-2">Expenses</h1>
-                    <div className="bg-blue-100 p-4 rounded-lg mb-6">
+                    <div className="bg-blue-200 p-4 rounded-lg mb-6">
                         <p className="text-center">All expenses goes here</p>
                         <form onSubmit={handleAddExpense}>
                             <div className="mb-4">
@@ -199,7 +199,7 @@ function ExpenseForm() {
                     </ul>
                 </section>
                 <section className="lg:w-1/3 w-full mt-12 pb-7">
-                    <div className="mb-20 m-5 flex flex-col items-center justify-center border border-blue-400 p-4 shadow-lg">
+                    <div className="mb-20 m-5 flex flex-col items-center justify-center bg-blue-200 border rounded-md p-4 shadow-lg">
                         <h2 className="text-2xl text-blue-950 font-bold text-center pb-4">Balance</h2>
                         <div>
                             <div>
@@ -210,7 +210,7 @@ function ExpenseForm() {
                             </div>
                         </div>
                         <div>
-                            <p className="font-bold text-white border bg-blue-600 rounded p-2 m-2 border-blue-300">Balance: {balance}RWF</p>
+                            <p className="font-bold text-white border bg-blue-500 rounded p-2 m-2 border-blue-300">Balance: {balance}RWF</p>
                         </div>
                     </div>
                 </section>
