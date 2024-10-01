@@ -7,11 +7,6 @@ import { useEffect } from "react";
 import ExpenseSummary from "./ExpenseSummary";
 
 function ExpenseForm() {
-
-    interface Income {
-        source: string;
-        amount: number;
-    }
     
     interface Expense {
         category: string;

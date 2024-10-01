@@ -1,4 +1,3 @@
-import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
