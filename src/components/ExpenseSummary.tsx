@@ -37,14 +37,14 @@ const ExpenseSummary = () => {
             {
                 label: 'Expenses by Category',
                 data: categories.map(category => expenseByCategory[category]),
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                backgroundColor: 'rgb(191, 219, 254)',
             },
         ],
     };
 
     return (
         <div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">Expense Summary</h2>
+            <h2 className="text-2xl text-center font-bold text-gray-800 mb-6">Expense Summary</h2>
             <Bar data={data} />
         </div>
     );

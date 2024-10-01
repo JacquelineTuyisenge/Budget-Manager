@@ -79,7 +79,7 @@ function ExpenseForm() {
         setDate("");
     };
 
-    //input 
+    //input changes
 
     const handleSourceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSource(e.target.value);
@@ -105,13 +105,12 @@ function ExpenseForm() {
     const balance = totalIncome - totalExpenses;
 
     return (
-        <div className="flex flex-col ">
+        <div className="flex flex-col">
             <h1 className="text-3xl font-bold text-gray-800 text-center py-20">Budget Manager</h1>
             <div className="shadow-md rounded-lg p-8 flex lg:flex-row flex-col lg:justify-around gap-5">
-                <section className="lg:w-1/3 w-full">
+                <section className="lg:w-1/2 w-full">
                     <h1 className="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-blue-500 pb-2">Income</h1>
                     <div className="bg-blue-200 p-4 rounded-lg mb-6">
-                        <p className="text-center">All Income goes here</p>
                         <form onSubmit={handleAddIncome}>
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="source" aria-label="source">
@@ -150,44 +149,49 @@ function ExpenseForm() {
                         </form>
                     </div>
                     {/* Income list */}
-                    <ul>
+                    <ul className="list-none bg-white shadow-md rounded-lg p-4">
+                        <li className="font-bold text-gray-800 mb-2 pb-2">Income List</li>
                         {incomeList.map((income, index) => (
-                            <li key={index}>
-                                {`${income.source} : ${income.amount} Rwf`}
+                            <li key={index} className="mb-2 border-b border-gray-200 pb-2">
+                                <span className="font-bold text-green-700">{income.source}</span> : 
+                                <span className="text-gray-800"> {income.amount} Rwf</span>
                             </li>
                         ))}
                     </ul>
+
                 </section>
-                <section className="lg:w-1/3 w-full">
+                <section className="lg:w-1/2 w-full">
                     <h1 className="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-blue-500 pb-2">Expenses</h1>
                     <div className="bg-blue-200 p-4 rounded-lg mb-6">
-                        <p className="text-center">All expenses goes here</p>
                         <form onSubmit={handleAddExpense}>
-                            <div className="mb-4">
+                            <div className="flex mb-4">
+                               <div className="flex-1 mr-2">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="date" aria-label="date">
-                                    Date:
-                                </label>
-                                <input
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="date"
-                                    type="date"
-                                    placeholder="date"
-                                    value={date}
-                                    onChange={handleDateChange}
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category" aria-label="category">
-                                    Category:
-                                </label>
-                                <input
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="category"
-                                    type="text"
-                                    placeholder="category"
-                                    value={category}
-                                    onChange={handleCategoryChange}
-                                />
+                                        Date:
+                                    </label>
+                                    <input
+                                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        id="date"
+                                        type="date"
+                                        placeholder="date"
+                                        value={date}
+                                        onChange={handleDateChange}
+                                    />
+                               </div>
+                            
+                                <div className="flex-1 m">
+                                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category" aria-label="category">
+                                        Category:
+                                    </label>
+                                    <input
+                                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        id="category"
+                                        type="text"
+                                        placeholder="category"
+                                        value={category}
+                                        onChange={handleCategoryChange}
+                                    />
+                                </div>
                             </div>
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="expense-amount" aria-label="expense-amount">
@@ -214,37 +218,41 @@ function ExpenseForm() {
                     </div>
 
                     {/* <ExpenseList /> */}
-                    <ul>
+                    <ul className="list-none bg-white shadow-md rounded-lg p-4">
+                    <li className="font-bold text-gray-800 mb-2 pb-2">Expense List</li>
                         {expenseList.map((expense, index) => (
-                            <li key={index}>
-                            {`${expense.category} : ${expense.amount} Rwf on ${expense.date}`}
+                            <li key={index} className="mb-2 border-b border-gray-200 pb-2">
+                                <span className="font-bold text-blue-400">{expense.category}</span> : 
+                                <span className="text-gray-800"> {expense.amount} Rwf</span> on 
+                                <span className="text-gray-500"> {expense.date}</span>
                             </li>
                         ))}
                     </ul>
                 </section>
-                <section className="lg:w-1/3 w-full mt-12 pb-7">
-                    <div className="mb-20 m-5 flex flex-col items-center justify-center bg-blue-200 border rounded-md p-4 shadow-lg">
-                        <h2 className="text-2xl text-blue-950 font-bold text-center pb-4">Balance</h2>
-                        <div>
-                            <div>
-                                <p className="font-bold ">Total Income: {totalIncome}Rwf</p>
-                            </div>
-                            <div>
-                                <p className="font-bold ">Total Expenses: {totalExpenses}Rwf</p>
-                            </div>
+            </div>
+            <div className="shadow-md rounded-lg p-8 flex lg:flex-row flex-col lg:justify-around gap-5">
+                <section className="lg:w-1/3 w-full p-2">
+                <div className="bg-blue-200 p-4 rounded-lg flex flex-col items-center">
+                    <h2 className="text-2xl text-blue-950 font-bold text-center pb-4">Balance</h2>
+                    <div className="flex flex-wrap justify-center w-full mb-4">
+                        <div className="flex-1 text-center">
+                            <p className="font-bold">Total Income: {totalIncome} Rwf</p>
                         </div>
-                        <div>
-                            <p className="font-bold text-white border bg-blue-500 rounded p-2 m-2 border-blue-300">Balance: {balance}RWF</p>
+                        <div className="flex-1 text-center">
+                            <p className="font-bold">Total Expenses: {totalExpenses} Rwf</p>
                         </div>
                     </div>
+                    <div>
+                        <p className="font-bold text-white border bg-blue-500 rounded p-2 m-2 border-blue-300 text-center">
+                            Balance: {balance} RWF
+                        </p>
+                    </div>
+                </div>
                 </section>
-                <section>
+                <section className="lg:w-2/3 w-full p-2">
                     <ExpenseSummary />
                 </section>
-                
             </div>
-            
-            <div></div>
         </div>
     );
 }
