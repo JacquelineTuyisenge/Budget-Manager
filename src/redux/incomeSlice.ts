@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IncomeState {
-    source: Array<{
+    incomes: Array<{
         source: string;
         amount: number;
     }>;
 }
 
 const initialState: IncomeState = {
-    source: [],
+    incomes: [],
 };
 
 export const incomeSlice = createSlice({
@@ -16,7 +16,7 @@ export const incomeSlice = createSlice({
     initialState,
     reducers: {
         addIncome: (state, action: PayloadAction<{ source: string; amount: number }>) => {
-            state.source.push(action.payload);
+            state.incomes.push(action.payload);
         },
     },
 });

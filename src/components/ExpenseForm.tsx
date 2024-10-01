@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addExpense } from "../redux/expenseSlice";
 import { addIncome } from "../redux/incomeSlice";
-import { AppDispatch } from "../store/store";
+import { AppDispatch, RootState } from "../store/store";
 import { useEffect } from "react";
+import ExpenseSummary from "./ExpenseSummary";
+
 function ExpenseForm() {
 
     interface Income {
@@ -14,6 +16,7 @@ function ExpenseForm() {
     interface Expense {
         category: string;
         amount: number;
+        date: string;
     }
     
 
@@ -21,25 +24,21 @@ function ExpenseForm() {
     const [incomeAmount, setIncomeAmount] = useState<number | string>("");
     const [category, setCategory] = useState("");
     const [expenseAmount, setExpenseAmount] = useState<number | string>("");
+    const [date, setDate] = useState("");
 
     const dispatch = useDispatch<AppDispatch>();
 
+    const expenses = useSelector((state: RootState) => state.expense.expenses);
+    const incomeList = useSelector((state: RootState) => state.income.incomes);
+
     //income & expense list
-    const [incomeList, setIncomeList] = useState<Income[]>([]);
     const [expenseList, setExpenseList] = useState<Expense[]>([]);
 
     useEffect(() => {
-        const storedIncome = localStorage.getItem("incomeList");
         const storedExpense = localStorage.getItem("expenseList");
 
-        if (storedIncome) setIncomeList(JSON.parse(storedIncome));
         if (storedExpense) setExpenseList(JSON.parse(storedExpense));
     }, []);
-
-    useEffect(() => {
-        localStorage.setItem("incomeList", JSON.stringify(incomeList));
-        localStorage.setItem("expenseList", JSON.stringify(expenseList));
-    }, [incomeList, expenseList]);
 
     //add incomes
     const handleAddIncome = (e: React.FormEvent<HTMLFormElement>) => {
@@ -49,10 +48,13 @@ function ExpenseForm() {
             return;
         }
         const newIncome = { source, amount: Number(incomeAmount) };
-        setIncomeList([...incomeList, newIncome]);
         dispatch(addIncome(newIncome));
         setSource("");
         setIncomeAmount("");
+    };
+
+    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setDate(e.target.value);
     };
 
     //add expenses
@@ -62,14 +64,22 @@ function ExpenseForm() {
             alert("Please enter category and expense amount");
             return;
         }
-        const newExpense = { category, amount: Number(expenseAmount) };
+        const newExpense = { category, amount: Number(expenseAmount), date };
+        const newTotalExpenses = totalExpenses + newExpense.amount;
+
+        if (newTotalExpenses > totalIncome) {
+            alert("You cannot spend more than your income");
+            return;
+        }
+
         setExpenseList([...expenseList, newExpense]);
         dispatch(addExpense(newExpense));
         setCategory("");
         setExpenseAmount("");
+        setDate("");
     };
 
-    //input changes
+    //input 
 
     const handleSourceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSource(e.target.value);
@@ -90,7 +100,8 @@ function ExpenseForm() {
     //total calculation
 
     const totalIncome = incomeList.reduce((acc, income) => acc + income.amount, 0);
-    const totalExpenses = expenseList.reduce((acc, expense) => acc + expense.amount, 0);
+    const totalExpenses = expenses.reduce((acc, expense) => acc + expense.amount, 0);
+
     const balance = totalIncome - totalExpenses;
 
     return (
@@ -153,6 +164,19 @@ function ExpenseForm() {
                         <p className="text-center">All expenses goes here</p>
                         <form onSubmit={handleAddExpense}>
                             <div className="mb-4">
+                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="date" aria-label="date">
+                                    Date:
+                                </label>
+                                <input
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    id="date"
+                                    type="date"
+                                    placeholder="date"
+                                    value={date}
+                                    onChange={handleDateChange}
+                                />
+                            </div>
+                            <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category" aria-label="category">
                                     Category:
                                 </label>
@@ -193,7 +217,7 @@ function ExpenseForm() {
                     <ul>
                         {expenseList.map((expense, index) => (
                             <li key={index}>
-                                {`${expense.category} : ${expense.amount} Rwf`}
+                            {`${expense.category} : ${expense.amount} Rwf on ${expense.date}`}
                             </li>
                         ))}
                     </ul>
@@ -214,6 +238,10 @@ function ExpenseForm() {
                         </div>
                     </div>
                 </section>
+                <section>
+                    <ExpenseSummary />
+                </section>
+                
             </div>
             
             <div></div>
